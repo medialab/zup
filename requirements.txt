@@ -1,0 +1,10 @@
+BeautifulSoup==3.2.1
+Django==1.6.5
+Pillow==2.5.0
+PyYAML==3.11
+cssselect==0.9.1
+goose-extractor==1.0.19
+jieba==0.32
+lxml==3.3.5
+nltk==2.0.4
+wsgiref==0.1.2
