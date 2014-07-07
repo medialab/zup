@@ -4,7 +4,9 @@ import os, shutil
 
 from django.conf import settings
 from django.db import models
-
+from django.db.models.signals import pre_delete, post_save
+from django.contrib.auth.models import User
+from django.dispatch import receiver
 
 
 def helper_uuslug(model, instance, value, max_length=128):
@@ -59,7 +61,7 @@ class Job(models.Model):
 
 
 
-@receiver(pre_delete, sender=Corpus)
+@receiver(pre_delete, sender=Job)
 def delete_job(sender, instance, **kwargs):
   '''
   rename or delete the job path linked to the corpus instance.

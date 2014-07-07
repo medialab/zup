@@ -81,6 +81,7 @@ def urls_to_zip(urls=[], path=None, max_length=64):
       print "writing on %s" % textified
 
       with codecs.open(textified, encoding='utf-8', mode='w') as f:
+        f.write('\n\n%s\n\n\n\n' % g.title)
         f.write(g.cleaned_text)
       
       myzip.write(textified, os.path.basename(textified))
