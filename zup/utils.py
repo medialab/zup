@@ -41,14 +41,20 @@ def unique_mkdir(path):
   return path
 
 
-def urls_to_zip(urls=[], path=None, max_length=64):
+def urls_to_zip(urls=[], path=None, max_length=64, fields=['title', 'tags', 'meta_keywords']):
+  '''
+
+  Cfr Goose documentation
+  '''
   if path is None:
     path = "untitled"
 
+  # create unique folder
   path = unique_mkdir(os.path.join(settings.TMP_ROOT, os.path.basename(path)))
-
-  #create unique zip filename
+  # create zip filename
   zipfied = os.path.join(settings.TMP_ROOT, 'urls_to_zip.zip')
+  # create csv report
+  report_path = os.path.join(path, 'report.csv')
 
   c = 1
   while os.path.exists(zipfied):
@@ -56,13 +62,16 @@ def urls_to_zip(urls=[], path=None, max_length=64):
     zipfied = os.path.join(settings.TMP_ROOT, candidate)
     c += 1
 
+  reports = []
+
   with ZipFile(zipfied, 'w') as myzip:
     print "writing zip file ... "
 
     for i,url in enumerate(urls):
-      print url
+      index = '%0*d' % (5, int(i) + 1)
+      
       g = gooseapi(url=url)
-      slug = slugify(g.title)[:max_length]
+      slug = '%s-%s' % (index,slugify(g.title)[:max_length])
       slug_base = slug
 
       textified = os.path.join(path, slug)
@@ -70,22 +79,52 @@ def urls_to_zip(urls=[], path=None, max_length=64):
 
       c = 1
       while os.path.exists(textified):
-
-        candidate = '%s-%s' % (slug_base, c)
+        
+        candidate = '%s-%s-%s' % (index, slug_base, c)
         print "writing on %s" % candidate
         if len(candidate) > max_length:
           slug = slug[:max_length-len('-%s' % c)]
         slug = re.sub('\-+','-',candidate)
         textified = os.path.join(path, slug)
         c += 1
+
+      textified = "%s.txt" % textified
+
       print "writing on %s" % textified
 
       with codecs.open(textified, encoding='utf-8', mode='w') as f:
         f.write('\n\n%s\n\n\n\n' % g.title)
         f.write(g.cleaned_text)
       
+      result = {
+        'id': i,
+        'path': os.path.basename(textified),
+        'url': url
+      }
+
+      for i in fields:
+        if i == 'tags':
+          result[i] = ', '.join(getattr(g, i))
+        else:
+          result[i] = getattr(g, i)
+
+      reports.append(result)
+
+
       myzip.write(textified, os.path.basename(textified))
       print "writing on %s" % textified
+      
+      print reports
+    #  2. write csv data
+    
+    with open(report_path, 'w') as report:
+      writer = csv.DictWriter(report, ['id', 'path', 'url'] + fields)
+      writer.writeheader()
+      for report in reports:
+        writer.writerow(report)
+  
+    myzip.write(report_path, os.path.basename(report_path))
+
   shutil.rmtree(path)
   return zipfied
    
