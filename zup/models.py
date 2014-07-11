@@ -25,31 +25,48 @@ def helper_uuslug(model, instance, value, max_length=128):
 
 
 
+class Url(models.Model):
+  STARTED = 'BOO'
+  ERROR = 'ERR'
+  COMPLETED = 'END'
+
+  STATUS_CHOICES = (
+    (STARTED, u'started'),
+    (ERROR, u'error'),
+    (COMPLETED, u'job completed')  
+  )
+
+  url = models.TextField()
+  status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=STARTED)
+
+
+
 class Job(models.Model):
   STARTED = 'BOO'
   RUNNING = 'RUN'
   LOST = 'RIP'
   COMPLETED = 'END'
+  TOBEREMOVED = 'RIP'
 
   STATUS_CHOICES = (
     (STARTED, u'started'),
     (RUNNING, u'running'),
     (LOST, u'process not found'),
-    (COMPLETED, u'job completed')  
+    (COMPLETED, u'job completed'),
+    (TOBEREMOVED, u'to be deleted') 
   )
 
   date_created = models.DateTimeField(auto_now=True)
   date_last_modified = models.DateTimeField(auto_now_add=True)
 
-  owner = models.OneToOneField(User)
-  urls = models.TextField()
+  urls = models.ManyToManyField(Url)
+  command = models.TextField()
 
   status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=STARTED)
-  completion = models.FloatField(default=0)
-
+  
   
   def get_path(self):
-    return os.path.join(settings.MEDIA_ROOT, self.owner.username)
+    return os.path.join(settings.MEDIA_ROOT, "job-%s" % self.pk)
 
 
   def save(self, **kwargs):

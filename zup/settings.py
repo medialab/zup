@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
 """
 Django settings for zup project.
 
@@ -10,6 +12,7 @@ https://docs.djangoproject.com/en/1.6/ref/settings/
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 import os
+import local_settings
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
 
@@ -20,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 SECRET_KEY = 'xe$0js2h%k*mc#erl6rx97)kra8(8)gftuwee24b+=4=*o+v#b'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = local_settings.DEBUG
 
 TEMPLATE_DEBUG = True
 
@@ -47,6 +50,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
 )
 
 ROOT_URLCONF = 'zup.urls'
@@ -59,15 +63,15 @@ WSGI_APPLICATION = 'zup.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': local_settings.DB_ENGINE,
+        'NAME': local_settings.DB_NAME,
     }
 }
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.6/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = local_settings.LANGUAGE_CODE
 
 TIME_ZONE = 'UTC'
 
@@ -84,6 +88,32 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 
+TITLE = local_settings.TITLE
+STATIC_URL = local_settings.STATIC_URL
+STATIC_ROOT = local_settings.STATIC_ROOT
+MEDIA_ROOT = local_settings.MEDIA_ROOT
+MEDIA_URL = local_settings.MEDIA_URL
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
-TMP_ROOT   = os.path.join(BASE_DIR, 'tmp')
+STATICFILES_DIRS = (
+  os.path.join(BASE_DIR, 'src'),
+)
+
+TEMPLATE_DIRS = (
+  os.path.join(BASE_DIR, 'templates'),
+)
+
+ENABLE_CDN_SERVICES = local_settings.ENABLE_CDN_SERVICES
+
+PYTHON_INTERPRETER = local_settings.PYTHON_INTERPRETER
+
+EN = 'en'
+IT = 'it'
+FR = 'fr'
+NL = 'nl'
+
+LANGUAGE_CHOICES = (
+  (EN, u'english'),
+  (FR, u'french'),
+  (NL, u'dutch'),
+  (IT, u'italian'),
+)
