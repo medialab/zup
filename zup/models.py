@@ -100,6 +100,8 @@ class Job(models.Model):
   def json(self, deep=False):
     d = {
       'id': self.id,
+      'name': self.name,
+      'status': self.status,
       'date_created': self.date_created.isoformat(),
       'date_last_modified': self.date_last_modified.isoformat() if self.date_last_modified else None,
     }
@@ -109,7 +111,7 @@ class Job(models.Model):
       })
       completed = 0.0;
       for url in d['urls']:
-        completed += 1 if url['status'] == Url.COMPLETED else 0
+        completed += 1 if url['status'] != Url.STARTED else 0
 
       d['completion'] = completed / len(d['urls'])
 

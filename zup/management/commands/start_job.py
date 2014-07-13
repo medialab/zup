@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os, csv, time, codecs, shutil
+import os, csv, time, codecs, shutil, urllib2
 from optparse import make_option
 from datetime import datetime
 
@@ -46,21 +46,17 @@ class Command(BaseCommand):
 
     job.status = Job.RUNNING
     job.save()
-    print 
+    #print 
     job_path = job.get_path()
     path = unique_mkdir(os.path.join(job_path, 'files'))
   
-    print path
+    #print path
 
     urls = job.urls.all()
-    # create zip filename
+    # create zip filename and remove previous one
     zip_path = os.path.join(job_path, 'urls_to_zip.zip')
-    
-    c = 1
-    while os.path.exists(zip_path):
-      candidate = '%s-%s.zip' % ('urls_to_zip', c)
-      zip_path = os.path.join(path, candidate)
-      c += 1
+    if os.path.exists(zip_path):
+      os.remove(zip_path)
 
     # create csv report
     rep_path = os.path.join(path, 'report.csv')
@@ -73,15 +69,40 @@ class Command(BaseCommand):
     max_length = 64
 
     with ZipFile(zip_path, 'w') as zip_file:
-      print "writing zip file ... "
+      #print "writing zip file ... "
       for i,url in enumerate(urls): # sync or not async
         index = '%0*d' % (5, int(i) + 1)
         url.status= Url.READY
         url.save()
 
-        print index, url.url
-        g = gooseapi(url=url.url)
-        slug = '%s-%s' % (index,slugify(g.title)[:max_length])
+        #print index, url.url
+
+        try:
+          g = gooseapi(url=url.url)
+        except urllib2.HTTPError, e:
+          url.status= Url.ERROR
+          url.log = '%s' % e
+          url.save()
+          continue
+        except urllib2.URLError, e:
+          url.status= Url.ERROR
+          url.log = '%s' % e
+          url.save()
+          continue
+        except ValueError, e: # that is, url is not a valid url
+          url.status= Url.ERROR
+          url.log = '%s' % e
+          url.save()
+          continue
+        except IOError, e: # probably the stopword file was not found, skip this url
+          url.status= Url.ERROR
+          url.log = '%s' % e
+          url.save()
+          continue
+
+        print 'title:', g.title, url.url
+        # handling not found title stuff
+        slug = '%s-%s' % (index,slugify(g.title if g.title else url.url)[:max_length])
         slug_base = slug
         
         textified = os.path.join(path, slug)
@@ -135,8 +156,10 @@ class Command(BaseCommand):
       zip_file.write(rep_path, os.path.basename(rep_path))
     
     shutil.rmtree(path)
+    # close job
+    job.status = Job.COMPLETED
+    job.save()
 
-    print("ooo")
 
   def handle(self, *args, **options):
     if not options['cmd']:

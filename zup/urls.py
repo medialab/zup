@@ -12,6 +12,7 @@ apipatterns = patterns('zup.api',
   
   url(r'^job$', 'jobs', name='zup_api_jobs'),
   url(r'^job/(?P<pk>\d+)$', 'job', name='zup_api_job'),
+  url(r'^job/(?P<pk>\d+)/download$', 'job_download', name='zup_api_job_download'),
 )
 
 urlpatterns = patterns('',

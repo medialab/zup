@@ -169,10 +169,11 @@ margin: 0 auto;
   }
 
   #jobs-container{
-    overflow: hidden;
     //padding-left: 25px;
     //background-color: #e2e2e2;
     border: 1px solid #ccc;
+    height: 300px;
+    overflow: auto;
   }
 }
 
@@ -215,8 +216,10 @@ margin-top: 35px;
     
     color: white;
   }
-
-
+  &.ERR{
+    background-color: #cc1600;
+    color:white;
+  }
 
   &.END{
     background-color: #65b665;

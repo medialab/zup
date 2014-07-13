@@ -22,6 +22,7 @@ def job(request, pk):
   return epoxy.json()
 
 
+
 def jobs(request):
   epoxy = Epoxy(request)
 
@@ -40,7 +41,33 @@ def jobs(request):
         u.save()
         job.urls.add(u)
 
-    job.start(cmd='urls_to_zip')
+    job.start(cmd='scrape')
     epoxy.item(job)
 
   return epoxy.json()
+
+
+
+def job_download(request, pk):
+  import os
+  from mimetypes import guess_type
+  from django.core.servers.basehttp import FileWrapper
+  from django.http import HttpResponse
+
+  epoxy = Epoxy(request) # useful to handle errors
+  try:
+    j = Job.objects.get(pk=pk)
+  except Job.DoesNotExist, e:
+    return epoxy.throw_error(code=API_EXCEPTION_DOESNOTEXIST, error=e).json()
+  
+  filepath = os.path.join(j.get_path(), 'urls_to_zip.zip')
+
+  if not os.path.exists(filepath):
+    return epoxy.throw_error(code=API_EXCEPTION_DOESNOTEXIST, error='Job does not seem to have any downloadable file associated').json()
+  
+  content_type = guess_type(filepath)
+  wrapper = FileWrapper(file(filepath))
+  response = HttpResponse(wrapper, content_type=content_type[0])
+  response['Content-Length'] = os.path.getsize(filepath)
+  response['Content-Disposition'] = 'attachment; filename=test.zip'
+  return response
