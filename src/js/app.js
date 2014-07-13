@@ -3,15 +3,20 @@ angular.module('zup', [
   'ngRoute',
   'zup.controllers',
   'zup.services'
+
 ])
-.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider, $cookies) {
+.config(['$routeProvider', '$httpProvider', function($routeProvider, $httpProvider, ToastFactory, $cookies) {
   $httpProvider.defaults.xsrfHeaderName = 'X-CSRFToken';
   $httpProvider.defaults.xsrfCookieName = 'csrftoken';
 
   $httpProvider.responseInterceptors.push(['$q','$log', function($q, $log) {
     return function(promise) {
       return promise.then(function(response) {
-        response.data.extra = 'Interceptor strikes back';
+        response.data.extra = '';
+        if(response.data.status == "error"){
+          $log.error('ZUP api errors',response.data.error);
+          return $q.reject(response);
+        }
         if(response.data.meta && response.data.meta.warnings){ // form error from server!
           // if(response.data.meta.warnings.invalid && response.data.meta.warnings.limit):
           // exceute, but send a message

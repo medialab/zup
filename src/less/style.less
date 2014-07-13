@@ -115,20 +115,21 @@ label{
   font-family: 'Varela Round', sans-serif;
   line-height: 30px;
   display: block;
+  text-align:center;
 }
 
 .number{
-  float: left;
-  margin-left: -60px;
-  width: 30px;
-  height: 30px;
-  border-radius: 40px;
-  background-color: #666;
-  text-align: center;
-  line-height: 30px;
-  color: white;
-  font-size: 14px;
-  font-family: 'Varela Round', sans-serif;
+width: 30px;
+height: 30px;
+border-radius: 40px;
+background-color: #666;
+text-align: center;
+line-height: 30px;
+color: white;
+font-size: 14px;
+font-family: 'Varela Round', sans-serif;
+text-align: center;
+margin: 0 auto;
 }
 
 .group{
@@ -143,8 +144,8 @@ label{
   }
 
   #textarea-container{
-    padding-left: 25px;
-    background-color: #e2e2e2;
+    //padding-left: 25px;
+    //background-color: #e2e2e2;
     border: 1px solid #ccc;
   }
 
@@ -157,7 +158,6 @@ label{
   }
 
   textarea{
-      height: 300px;
       border-radius: 0px;
       font-family: 'Inconsolata';
       line-height:15px;
@@ -166,6 +166,13 @@ label{
     
       border-width: 0px;
       border-left: 1px solid #ccc;
+  }
+
+  #jobs-container{
+    overflow: hidden;
+    //padding-left: 25px;
+    //background-color: #e2e2e2;
+    border: 1px solid #ccc;
   }
 }
 
@@ -187,12 +194,56 @@ margin-top: 35px;
   }
 }
 
+.job{
+  position: relative;
+  background: #f7f7f7;
+  clear: both;
+}
+
+
+.job-status{
+  float: left;
+  width:26px;
+  line-height:14px;
+  font-size:12px;
+  margin: 2px;
+  text-align: center;
+
+  &.REA{
+    background-color: #c96e1c;
+    
+    
+    color: white;
+  }
 
 
 
+  &.END{
+    background-color: #65b665;
+    
+    
+    color: white;
+  }
+
+}
+
+.job-url{
+  font-family: 'Inconsolata';
+      line-height:18px;
+      font-size:13px;
+  margin-left: 30px;
+  background: #fff;
+  word-break:break-all;
+  padding: 0 4px;
+  border-left: 1px solid #ddd;
+}
 
 
-
+.CodeMirror {
+  /* Set height, width, borders, and global font properties here */
+  font-family:'Inconsolata';
+  height: 300px;
+}
 
 
 /* #Toastmessage JQUERYPlugin css

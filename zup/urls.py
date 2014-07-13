@@ -1,12 +1,22 @@
 from django.conf.urls import patterns, include, url
-
 from django.contrib import admin
+
+
+
 admin.autodiscover()
 
+
+
+apipatterns = patterns('zup.api',
+  url(r'^$', 'home', name='zup_api_home'),
+  
+  url(r'^job$', 'jobs', name='zup_api_jobs'),
+  url(r'^job/(?P<pk>\d+)$', 'job', name='zup_api_job'),
+)
+
 urlpatterns = patterns('',
-    # Examples:
     url(r'^$', 'zup.views.home', name='home'),
-    # url(r'^blog/', include('blog.urls')),
+    url(r'^api/', include(apipatterns)),
 
     url(r'^admin/', include(admin.site.urls)),
 )

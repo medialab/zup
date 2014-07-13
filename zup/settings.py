@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'glue',
     'zup'
 )
 
@@ -93,6 +94,7 @@ STATIC_URL = local_settings.STATIC_URL
 STATIC_ROOT = local_settings.STATIC_ROOT
 MEDIA_ROOT = local_settings.MEDIA_ROOT
 MEDIA_URL = local_settings.MEDIA_URL
+TMP_ROOT = local_settings.TMP_ROOT
 
 STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'src'),

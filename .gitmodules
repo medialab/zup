@@ -1,0 +1,3 @@
+[submodule "glue"]
+	path = glue
+	url = git@github.com:danieleguido/glue.git

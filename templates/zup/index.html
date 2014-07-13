@@ -16,6 +16,7 @@
     <link href="//netdna.bootstrapcdn.com/font-awesome/4.0.3/css/font-awesome.css" rel="stylesheet">
     <link href='http://fonts.googleapis.com/css?family=Varela+Round|Inconsolata' rel='stylesheet' type='text/css'>
 
+    <link rel="stylesheet" href="{{ STATIC_URL }}/css/codemirror.css">
     {% if DEBUG %}
     <link rel="stylesheet/less" type="text/css" href="{{ STATIC_URL }}/less/style.less" />
     <script src="{{ STATIC_URL }}/js/libs/less-1.7.0.min.js" type="text/javascript"></script>
@@ -85,7 +86,7 @@
           * almost any: no facebook, no twitter, no ...
         </h4>
       
-
+        {% verbatim %}
         <div id="working-area" ng-controller='zupCtrl'>
           <form class="pure-form">
             <div class="group">
@@ -93,7 +94,7 @@
                 1
               </div>
               <label>Project name</label>
-              <input class="pure-input-1"/>
+              <input class="pure-input-1" ng-model="job.name" ng-minlenght="3" ng-pattern="/^[a-zA-Z\d_\-\s]+$/"/>
             </div>
 
             <div class="group">
@@ -104,20 +105,37 @@
 
               
                 <div class="inner">
-                  
+                  <div ng-if="!job.id">
                     <div id="textarea-container">
-                      <textarea class="pure-input-1"></textarea>
+                      <textarea ui-codemirror="{lineNumbers:true,lineWrapping:true}" class="pure-input-1" ng-model="job.url_list"></textarea>
                     </div>
-                  
+                  </div>
+                  <div ng-if="job.id">
+                    <div id="jobs-container">
+                      <!-- show urls and their status ! -->
+                      <div ng-repeat="u in job.urls" class="job">
+                        <div class="job-status {{u.status}}">{{$index + 1}}</div>
+                        <div class="job-url">{{u.url}}</div>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-          
+            <button class="pure-button" ng-click="save()">
+              <div ng-if="!job.id">
+              START ME PLEASE
+              </div>
+              <div ng-if="job.id">
+                WORKING... <span>{{job.completion}}</span>
+              </div>
+            </button>
           </form>
         </div>
-
+        {% endverbatim %}
       </div>
     </div>
 
+    <div ng-controller="jobCtrl">ad</div>
     
 
     <script src="https://code.jquery.com/jquery-git2.min.js"></script>
@@ -129,6 +147,10 @@
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-route.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-resource.min.js"></script>
     <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.2.13/angular-animate.min.js"></script>
+
+    <!-- codemirror -->
+    <script src="{{ STATIC_URL }}/js/libs/codemirror.js"></script>
+    <script src="{{ STATIC_URL }}/js/libs/angular-ui-codemirror.js"></script>
 
     <script src="{{ STATIC_URL }}/js/app.js"></script>
     <script src="{{ STATIC_URL }}/js/services.js"></script>

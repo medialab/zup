@@ -5,7 +5,7 @@ ALLOWED_HOSTS = [] # change this according to the documentation
 
 BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 
-TITLE = 'SVEN'
+TITLE = 'ZUP'
 SECRET_KEY = 'your own generated secret key'
 
 DB_ENGINE = 'django.db.backends.sqlite3'
@@ -18,6 +18,8 @@ STATIC_URL = '/static/'
 
 MEDIA_ROOT = os.path.join(BASE_DIR, '../media')
 MEDIA_URL = '/media/'
+
+TMP_ROOT = os.path.join(BASE_DIR, 'tmp')
 
 PYTHON_INTERPRETER = '/home/daniele/.virtualenvs/zup/bin/python' # mine, given as exemple. Cfr virtualenv doc.
 

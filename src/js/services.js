@@ -36,4 +36,14 @@ angular.module('zup.services', ['ngResource', ])//'ngAnimate'])
         $().toastmessage("showToast", settings);
       }
     };
+  })
+
+  .factory('JobsFactory', function($resource) {
+    return $resource('/api/job', {}, {});
+  })
+
+  .factory('JobFactory', function($resource) {
+    return $resource('/api/job/:id', {}, {
+      query: {method: 'GET', params: {id: '@id'}},
+    });
   });
