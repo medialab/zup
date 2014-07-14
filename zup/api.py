@@ -69,5 +69,5 @@ def job_download(request, pk):
   wrapper = FileWrapper(file(filepath))
   response = HttpResponse(wrapper, content_type=content_type[0])
   response['Content-Length'] = os.path.getsize(filepath)
-  response['Content-Disposition'] = 'attachment; filename=test.zip'
+  response['Content-Disposition'] = 'attachment; filename=%s--%s[zup].zip' % (j.slug, j.date_created.strftime('%Y-%m-%d--%H-%M-%S'))
   return response
