@@ -49,6 +49,6 @@ class UtilsTest(TestCase):
       "http://guidance.nice.org.uk/CG/Published",
       "http://volunteermovement.org/ehsen-amri-activism-in-tunisia/"
     ])
-    self.assertEquals
+    self.assertEqual(os.path.exists(zipified), True)
     if os.path.exists(zipified):
       os.remove(zipified)

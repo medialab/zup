@@ -140,6 +140,7 @@ def urls_to_zip(urls=[], path=None, max_length=64, fields=['title', 'tags', 'met
     logger.debug('csv report added to zipfile %s' % zipfied)
     
   shutil.rmtree(path)
+  logger.debug('------------- END OF TASK ------------')
   return zipfied
    
 
