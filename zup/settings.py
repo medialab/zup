@@ -119,3 +119,36 @@ LANGUAGE_CHOICES = (
   (NL, u'dutch'),
   (IT, u'italian'),
 )
+
+LOGGING_ROOT = os.path.join(BASE_DIR, 'logs') 
+
+LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,
+    'formatters': {
+      'verbose': {
+            'format': u'%(levelname)s %(asctime)s %(module)s %(process)d %(thread)d «%(message)s»'
+      },
+      'simple': {
+            'format': u'%(asctime)s «%(message)s» %(module)s.%(funcName)s (%(lineno)s)'
+      },
+    },
+    'handlers': {
+      'file': {
+          'level': 'DEBUG',
+          'class': 'logging.FileHandler',
+          'filename': os.path.join(LOGGING_ROOT, 'debug.log'),
+          'formatter': 'simple'
+      },
+    },
+    'loggers': {
+        'zup': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+    },
+}
+
+
+LOG_FILE = LOGGING['handlers']['file']['filename']
