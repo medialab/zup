@@ -2,3 +2,5 @@
 *.sublime-workspace
 *.pyc
 *.sqlite3
+
+local_settings.py
