@@ -31,6 +31,10 @@ angular.module('zup.controllers', ['ngCookies', 'ui.codemirror'])
       }
     };
 
+    $scope.download = function(job) {
+      window.open(location.pathname + 'api/job/' + job.id + '/download', '_blank', '');
+    }
+
 
     $rootScope.$on(JOB_GET_PENDING, function(e, pending_job_ids){
       $log.info('zupCtrl @JOB_GET_PENDING', pending_job_ids);

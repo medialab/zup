@@ -39,11 +39,11 @@ angular.module('zup.services', ['ngResource', ])//'ngAnimate'])
   })
 
   .factory('JobsFactory', function($resource) {
-    return $resource('api/job', {}, {});
+    return $resource(location.pathname + 'api/job', {}, {});
   })
 
   .factory('JobFactory', function($resource) {
-    return $resource('api/job/:id', {}, {
+    return $resource(location.pathname + 'api/job/:id', {}, {
       query: {method: 'GET', params: {id: '@id'}},
     });
   });

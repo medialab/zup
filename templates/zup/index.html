@@ -121,18 +121,22 @@
                   </div>
                 </div>
               </div>
+
+
             <button class="pure-button" ng-click="save()">
               <div ng-if="!job.id">
-              START ME PLEASE
+              START
               </div>
               <div ng-if="job.id">
-                WORKING... <span>{{job.completion}}</span>
+                {{job.completion < 1? 'WORKING...':'COMPLETED! '}} <span>{{job.completion}}</span>
               </div>
             </button>
 
-            <a class="pure-button" ng-if="job.status=='END'" href="/api/job/{{job.id}}/download">
+            <button class="pure-button" ng-if="job.status=='END'" ng-click="download(job)">
               download result
-            </a>
+            </button>
+
+
           </form>
         </div>
         {% endverbatim %}
