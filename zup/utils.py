@@ -28,9 +28,12 @@ def gooseapi(url):
   Return a goose instance for the given url. Goose instance brings together title and content from the pointed page body.
   '''
   logger.debug('fetching url: %s' % url);
-  goo = Goose({'browser_user_agent': 'Mozilla'})
+  goo = Goose({'browser_user_agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/39.0.2171.65 Safari/537.36'})
+  
   opener = urllib2.build_opener(urllib2.HTTPCookieProcessor())
+  opener.addheaders = [('User-agent', 'User-Agent:Mozilla/5.0 (Macintosh; Intel Mac OS X 10_10_0) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/38.0.2125.122 Safari/537.36'), ('Accept', '*/*')]
   response = opener.open(url)
+  
   raw_html = response.read()
   return goo.extract(raw_html=raw_html)
 

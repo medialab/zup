@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-import os, csv, time, codecs, shutil, urllib2
+import os, csv, time, codecs, shutil, urllib2, logging
 from optparse import make_option
 from datetime import datetime
 
@@ -10,6 +10,10 @@ from django.utils.text import slugify
 from zipfile import ZipFile
 from zup.utils import gooseapi, unicode_dict_reader, unique_mkdir
 from zup.models import Job, Url
+
+
+logger = logging.getLogger('zup')
+
 
 class Command(BaseCommand):
   '''
@@ -43,14 +47,12 @@ class Command(BaseCommand):
 
 
   def _scrape(self, job, fields=['title', 'tags', 'meta_keywords']):
-
+    logger.debug('starting command "scrape"')
     job.status = Job.RUNNING
     job.save()
-    #print 
+    
     job_path = job.get_path()
     path = unique_mkdir(os.path.join(job_path, 'files'))
-  
-    #print path
 
     urls = job.urls.all()
     # create zip filename and remove previous one
@@ -62,20 +64,17 @@ class Command(BaseCommand):
     rep_path = os.path.join(path, 'report.csv')
     reports = []
 
-    print zip_path
-    print rep_path
+    logger.debug('zip path: %s' % zip_path)
+    
 
     # filename length
     max_length = 64
 
     with ZipFile(zip_path, 'w') as zip_file:
-      #print "writing zip file ... "
       for i,url in enumerate(urls): # sync or not async
         index = '%0*d' % (5, int(i) + 1)
         url.status= Url.READY
         url.save()
-
-        #print index, url.url
 
         try:
           g = gooseapi(url=url.url)
@@ -99,8 +98,12 @@ class Command(BaseCommand):
           url.log = '%s' % e
           url.save()
           continue
+        except Exception, e:
+          logger.exception(e)
+          continue
 
-        print 'title:', g.title, url.url
+        logger.debug('title: %s', g.title)
+        logger.debug('url:   %s', url.url)
         # handling not found title stuff
         slug = '%s-%s' % (index,slugify(g.title if g.title else url.url)[:max_length])
         slug_base = slug
@@ -111,7 +114,7 @@ class Command(BaseCommand):
         while os.path.exists(textified):
           
           candidate = '%s-%s-%s' % (index, slug_base, c)
-          print "writing on %s" % candidate
+          
           if len(candidate) > max_length:
             slug = slug[:max_length-len('-%s' % c)]
           slug = re.sub('\-+','-',candidate)
@@ -150,7 +153,6 @@ class Command(BaseCommand):
         writer = csv.DictWriter(report, ['id', 'path', 'url'] + fields)
         writer.writeheader()
         for report in reports:
-          print report
           writer.writerow(report)
     
       zip_file.write(rep_path, os.path.basename(rep_path))
