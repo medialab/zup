@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 import logging, datetime
+
+from django.conf import settings
 from django.core.management.base import BaseCommand, CommandError
 from django.utils import timezone
 from zup.models import Job
@@ -24,10 +26,10 @@ class Command(BaseCommand):
     
     now = timezone.now()
 
-    for job in Job.objects.all():
+    for job in Job.objects.exclude(status=Job.RUNNING):
       try:
-        if (now - job.date_last_modified).days > 2: # more than two days ago
-          logger.info('removing job "%s" because of its obsolesence of %s days' % (job.name, (now - job.date_last_modified).days))
+        if (now - job.date_last_modified).total_seconds() > settings.CLEANING_AFTER_SECONDS: # more than two days ago
+          logger.info('removing job "%s" because of its obsolesence of %s seconds' % (job.name, (now - job.date_last_modified).total_seconds()))
           job.delete()
       except Exception, e:
         logger.info('problem during cleaning ...')

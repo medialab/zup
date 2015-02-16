@@ -164,3 +164,5 @@ LOGGING = {
 
 
 LOG_FILE = LOGGING['handlers']['file']['filename']
+
+CLEANING_AFTER_SECONDS = local_settings.CLEANING_AFTER_SECONDS

@@ -27,3 +27,5 @@ TMP_ROOT = os.path.join(BASE_DIR, 'tmp')
 PYTHON_INTERPRETER = '/home/daniele/.virtualenvs/zup/bin/python' # mine, given as exemple. Cfr virtualenv doc.
 
 ENABLE_CDN_SERVICES = False # set to true if you want to use CDN. This const will be used in templates
+
+CLEANING_AFTER_SECONDS = 30 * 60
