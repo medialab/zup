@@ -1,5 +1,5 @@
 .DS_Store
-*.sublime-workspace
+*.sublime-*
 *.pyc
 *.sqlite3
 
