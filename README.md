@@ -3,6 +3,8 @@ zup
 
 a simple interface from extracting texts from (almost) any url.
 
+<img src="zup.gif" width="50%" />
+
 ## installation
 Clone the repository and its submodules
 
