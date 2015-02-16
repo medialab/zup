@@ -46,8 +46,8 @@ class Url(models.Model):
   url = models.URLField()
   log = models.TextField() # solo errore
 
-  date_created = models.DateTimeField(auto_now=True)
-  date_last_modified = models.DateTimeField(auto_now_add=True)
+  date_created = models.DateTimeField(auto_now_add=True)
+  date_last_modified = models.DateTimeField(auto_now=True)
 
   status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=STARTED)
 
@@ -88,14 +88,18 @@ class Job(models.Model):
   name = models.CharField(max_length=64)
   slug = models.CharField(max_length=64, unique=True)
   
-  date_created = models.DateTimeField(auto_now=True)
-  date_last_modified = models.DateTimeField(auto_now_add=True)
+  date_created = models.DateTimeField(auto_now_add=True)
+  date_last_modified = models.DateTimeField(auto_now=True)
 
   urls = models.ManyToManyField(Url)
   command = models.TextField()
 
   status = models.CharField(max_length=3, choices=STATUS_CHOICES, default=STARTED)
   
+
+  def __unicode__(self):
+    return '%s %s' % (self.name, self.status)
+
 
   def json(self, deep=False):
     d = {
@@ -127,7 +131,6 @@ class Job(models.Model):
     return path
 
 
-
   def save(self, **kwargs):
     if self.pk is None:
       self.slug = helper_uuslug(model=Job, instance=self, value=self.name)
@@ -149,6 +152,7 @@ class Job(models.Model):
       subprocess.Popen(popen_args, stdout=None, stderr=None, close_fds=True)
       
     print popen_args
+
 
 @receiver(pre_delete, sender=Job)
 def delete_job(sender, instance, **kwargs):

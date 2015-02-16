@@ -141,10 +141,21 @@ LOGGING = {
           'filename': os.path.join(LOGGING_ROOT, 'debug.log'),
           'formatter': 'simple'
       },
+      'file.clean': {
+          'level': 'DEBUG',
+          'class': 'logging.FileHandler',
+          'filename': os.path.join(LOGGING_ROOT, 'clean.log'),
+          'formatter': 'simple'
+      },
     },
     'loggers': {
         'zup': {
             'handlers': ['file'],
+            'level': 'DEBUG',
+            'propagate': True,
+        },
+        'zup.clean': {
+            'handlers': ['file.clean'],
             'level': 'DEBUG',
             'propagate': True,
         },
