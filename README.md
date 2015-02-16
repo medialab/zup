@@ -3,6 +3,8 @@ zup
 
 a simple interface from extracting texts from (almost) any url.
 
+![zup screencast - made with byzanz](zup.gif "short screencast")
+
 ## installation
 Clone the repository and its submodules
 
