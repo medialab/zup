@@ -21,6 +21,8 @@ def _helper_shared_context(request, tags=[], d={}):
     'TITLE': settings.TITLE,
     'DEBUG': settings.DEBUG,
     'ENABLE_CDN_SERVICES': settings.ENABLE_CDN_SERVICES,
-    'LANGUAGE': request.LANGUAGE_CODE
+    'LANGUAGE': request.LANGUAGE_CODE,
+    'URLS_LIMIT': settings.URLS_LIMIT,
+    'URLS_LIMIT_ENABLE': not request.user.is_staff
   })
   return d

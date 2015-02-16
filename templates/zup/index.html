@@ -86,7 +86,7 @@
           * almost any: no facebook, no twitter, no ...
         </h4>
       
-        {% verbatim %}
+        
         <div id="working-area" ng-controller='zupCtrl'>
           <form class="pure-form">
             <div class="group">
@@ -101,9 +101,11 @@
               <div class="number">
                 2
               </div>
-              <label>Url list</label>
+              <label>Url list
+              {% if URLS_LIMIT_ENABLE%}<br>url number limited to {{URLS_LIMIT}}{%endif%}
+              </label>
 
-              
+              {% verbatim %}
                 <div class="inner">
                   <div ng-if="!job.id">
                     <div id="textarea-container">
@@ -136,10 +138,10 @@
               download result
             </button>
 
+        {% endverbatim %}
 
           </form>
         </div>
-        {% endverbatim %}
       </div>
     </div>
 
