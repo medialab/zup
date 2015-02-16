@@ -20,7 +20,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 # See https://docs.djangoproject.com/en/1.6/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'xe$0js2h%k*mc#erl6rx97)kra8(8)gftuwee24b+=4=*o+v#b'
+SECRET_KEY = local_settings.SECRET_KEY
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = local_settings.DEBUG
@@ -95,6 +95,7 @@ STATIC_ROOT = local_settings.STATIC_ROOT
 MEDIA_ROOT = local_settings.MEDIA_ROOT
 MEDIA_URL = local_settings.MEDIA_URL
 TMP_ROOT = local_settings.TMP_ROOT
+URLS_LIMIT = local_settings.URLS_LIMIT
 
 STATICFILES_DIRS = (
   os.path.join(BASE_DIR, 'src'),

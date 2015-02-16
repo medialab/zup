@@ -6,7 +6,7 @@ from django.utils.translation import ugettext as _
 from django.template import RequestContext
 from django.contrib.admin.views.decorators import staff_member_required
 
-@staff_member_required
+
 def home(request):
   d = _helper_shared_context(request)
   return render_to_response("zup/index.html", RequestContext(request, d))

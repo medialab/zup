@@ -8,6 +8,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(__file__))
 TITLE = 'ZUP'
 SECRET_KEY = 'your own generated secret key'
 
+# limit on url number (not applicable for admin staff)
+URLS_LIMIT=100
+
 DB_ENGINE = 'django.db.backends.sqlite3'
 DB_NAME = os.path.join(BASE_DIR, 'sqlite/db.sqlite3') # given as example
 

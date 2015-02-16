@@ -1,3 +1,4 @@
+from django.conf import settings
 from django.db import transaction
 from glue import Epoxy, API_EXCEPTION_AUTH, API_EXCEPTION_FORMERRORS, API_EXCEPTION_DOESNOTEXIST
 from zup.forms import JobForm
@@ -34,9 +35,13 @@ def jobs(request):
 
     with transaction.atomic():
       job = form.save()
-      # Cfr forms.py clened data is here a list of (not yet) valid url
-      
-      for url in form.cleaned_data['url_list']:
+      # Cfr forms.py claened data is here a list of (not yet) valid url
+      urllist = form.cleaned_data['url_list']
+      # limit on url list
+      if not request.user.is_staff:
+        urllist = urllist[:settings.URLS_LIMIT]
+
+      for url in urllist:
         u = Url(url=url)
         u.save()
         job.urls.add(u)
