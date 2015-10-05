@@ -1,9 +1,9 @@
 zup
 ===
 
-a simple interface from extracting texts from (almost) any url.
+a simple interface to extract texts from (almost) any url.
 
-<img src="zup.gif" width="50%" />
+![https://raw.githubusercontent.com/medialab/ct/zup/master/zup.gif](https://raw.githubusercontent.com/medialab/ct/zup/master/zup.gif "ZUP")
 
 ## installation
 Clone the repository and its submodules
