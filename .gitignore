@@ -2,6 +2,6 @@
 *.sublime-*
 *.pyc
 *.sqlite3
-
+static
 *.log
 local_settings.py

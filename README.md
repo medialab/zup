@@ -43,6 +43,10 @@ And modify these two lines according to your own virtualenv
 		
 	PYTHON_INTERPRETER = '<your virtualenv path>/.virtualenvs/zup/bin/python'
 	
+Also define in which directories you want to install Django's static files:
+
+    STATIC_ROOT = '<your own path>/static'
+    MEDIA_ROOT  = '<your own path>/media'
 	
 ##Run
 Zup needs a light sqlite database
@@ -50,6 +54,7 @@ Zup needs a light sqlite database
 	cd zup
 	python manage.py syncdb
 	python manage.py test
+    python manage.py collectstatic
 
 Test your installation with
 
