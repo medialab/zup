@@ -3,7 +3,7 @@ zup
 
 a simple interface to extract texts from (almost) any url.
 
-![https://raw.githubusercontent.com/medialab/ct/zup/master/zup.gif](https://raw.githubusercontent.com/medialab/ct/zup/master/zup.gif "ZUP")
+![https://raw.githubusercontent.com/medialab/zup/master/zup.gif](https://raw.githubusercontent.com/medialab/zup/master/zup.gif "ZUP")
 
 ## installation
 Clone the repository and its submodules
