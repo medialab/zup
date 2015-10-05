@@ -1,0 +1,9 @@
+{
+  "name": "ZUP",
+  "authors": ["Daniele Guido"],
+  "url": "http://tools.medialab.sciences-po.fr/zup/",
+  "source": "https://github.com/medialab/zup",
+  "licence": "LGPL/CECILL-C",
+  "visual": "",
+  "description": "A simple interface to extract texts from (almost) any url."
+}
