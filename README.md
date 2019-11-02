@@ -10,7 +10,7 @@ Clone the repository and its submodules
 
 	clone --recursive https://github.com/medialab/zup.git zup
 
-If --recursive options is not available, consider using these command to install submodules
+If `--recursive` options is not available, consider using these command to install submodules
 
 	cd zup
 	git submodule init
@@ -31,7 +31,7 @@ In case, you are using Ubuntu/Lubuntu 13.04 or Ubuntu 13.10 and having problem w
 	
 	sudo apt-get install zlib1g-dev
 		
-##Configuration
+## Configuration
 Once installation has been completed, there is one more step: configuration.
 
 	cd zup
@@ -48,7 +48,7 @@ Also define in which directories you want to install Django's static files:
     STATIC_ROOT = '<your own path>/static'
     MEDIA_ROOT  = '<your own path>/media'
 	
-##Run
+## Run
 Zup needs a light sqlite database
 
 	cd zup
